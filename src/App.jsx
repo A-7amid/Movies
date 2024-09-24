@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import './App.css'
 import SearchIcon from './search.svg'
 import MovieCard from "./MovieCard"
@@ -17,6 +17,7 @@ const App = () => {
 
   const [movies, setMovies] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const inpVal = useRef()
 
   const searchMovies = async (title) => {
     const response = await fetch(`${API_URL}&s=${title}`)
@@ -24,6 +25,7 @@ const App = () => {
 
     setMovies(data.Search)
   }
+  console.log(inpVal.current)
 
   useEffect(() => {
     searchMovies('Batman')
@@ -36,7 +38,7 @@ const App = () => {
 
         <div className="search">
           <input
-            placeholder="Search for movies" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search for movies" ref={inpVal} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
           />
           <img src={SearchIcon} alt="search" onClick={() => {
             inpVal.current.value == '' ? '' : searchMovies(searchTerm)
